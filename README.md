@@ -1,2 +1,4 @@
-# patterns
-Patterns - Java
+# Patterns
+Patterns so far:
+
+* Builder

@@ -1,4 +1,8 @@
-public class Person{
+package pattern.builder.java8;
+
+import java.util.function.*;
+
+public class Person {
   private String firstname, lastname, phonenumber;
 
   private Person(PersonBuilder builder){
@@ -18,8 +22,12 @@ public class Person{
   public static class PersonBuilder {
     private String firstname, lastname, phonenumber;
 
-    public Person build() {
-      return new Person(this);
+    private PersonBuilder(){}
+
+    public static Person build(Consumer<PersonBuilder> block) {
+      PersonBuilder personBuilder = new PersonBuilder();
+      block.accept(personBuilder);
+      return new Person(personBuilder);
     }
 
     public PersonBuilder withFirstname(String firstname){
@@ -46,13 +54,14 @@ public class Person{
   }
 
   public static void main(String[] args){
-    Person person = new PersonBuilder()
-      .withFirstname("Sonni")
-        .and()
-      .withLastname("Nielsen")
-        .and()
-      .withPhonenumber("066123456")
-      .build();
+    Person person = PersonBuilder.build(
+      builder -> builder
+        .withFirstname("Sonni")
+          .and()
+        .withLastname("Nielsen")
+          .and()
+        .withPhonenumber("066123456")
+    );
 
     System.out.println(person);
   }
